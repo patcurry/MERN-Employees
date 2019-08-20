@@ -11,23 +11,23 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: '',
       employees: []
     }
 
     this.updateData = this.updateData.bind(this);
   }
 
-  updateData(id) {
+  updateData() {
     axios.get('http://localhost:5000')
       .then(r => r.data)
-      .then(d => this.setState({employees: d.employees}));
+      .then(d => this.setState({employees: d}));
   }
 
   componentDidMount() {
     axios.get('http://localhost:5000')
       .then(r => r.data)
-      .then(d => this.setState({ message: d.message, employees: d.employees }));
+      .then(d => this.setState({ employees: d}));
+    ;
   }
 
   render() {
@@ -43,18 +43,17 @@ class App extends React.Component {
               <th>Holidays</th>
               <th>+</th>
               <th>-</th>
-              <th>*</th>
             </tr>
             {
               this.state.employees
                 .map(e => 
-                  <tr key={e.id}>
-                    <td>{e.id}</td>
-                    <td>{e.first_name}</td>
-                    <td>{e.last_name}</td>
+                  <tr key={e._id}>
+                    <td>{e._id}</td>
+                    <td>{e.firstName}</td>
+                    <td>{e.lastName}</td>
                     <td>Holidays: {e.holidays}</td>
-                    <td><IncrementButton id={e.id} updateData={this.updateData} /></td>
-                    <td><DecrementButton id={e.id} updateData={this.updateData} /></td>
+                    <td><IncrementButton id={e._id} updateData={this.updateData} /></td>
+                    <td><DecrementButton id={e._id} updateData={this.updateData} /></td>
                   </tr>
                 )
             }
@@ -66,3 +65,7 @@ class App extends React.Component {
 }
 
 export default App;
+
+/*
+ *            
+*/
