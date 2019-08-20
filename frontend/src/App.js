@@ -1,26 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 
+import IncrementButton from './IncrementButton';
+import DecrementButton from './DecrementButton';
+
 import './App.css';
-
-
-const SERVER = 'http://localhost:5000';
-
-const IncrementButton = (props) => {
-
-  const handleClick = () => axios.put(`${SERVER}/increment/${props.id}`)
-    .then(x => props.updateData());
-
-  return(<button onClick={handleClick}>+</button>); 
-};
-
-const DecrementButton = (props) => {
-
-  const handleClick = () => axios.put(`${SERVER}/decrement/${props.id}`)
-    .then(x => props.updateData());
-
-  return(<button onClick={handleClick}>-</button>); 
-};
 
 
 class App extends React.Component {
@@ -35,20 +19,20 @@ class App extends React.Component {
   }
 
   updateData(id) {
-    axios.get(SERVER)
+    axios.get('http://localhost:5000')
       .then(r => r.data)
       .then(d => this.setState({employees: d.employees}));
   }
 
   componentDidMount() {
-    axios.get(SERVER)
+    axios.get('http://localhost:5000')
       .then(r => r.data)
       .then(d => this.setState({ message: d.message, employees: d.employees }));
   }
 
   render() {
     return (
-      <div className="App">
+      <div className='App'>
         <h2>Employee table</h2>
         <table>
           <tbody>
