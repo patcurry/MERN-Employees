@@ -37,19 +37,38 @@ const mockData = {
 app.use(cors());
 
 app.get('/', (req, res, next) => {
+  console.info(`${req.method} ${req.originalUrl}`);
   res.json(mockData);
 });
 
-// there should be app update calls here too
-
 // increment holidays
 app.put('/increment/:id', (req, res, next) => {
-  res.json(mockData);
+  // log the request
+  console.info(`${req.method} ${req.originalUrl}`);
+
+  // increment the holidays by 1
+  // I don't like this code, but it works
+  mockData.employees
+    .filter(e => e.id === parseInt(req.params.id))
+    .map(e => e.holidays += 1);
+
+  // response - is this necessary?
+  res.json({message: `Incremented user ${req.params.id}`});
 });
 
 // decrement holidays
 app.put('/decrement/:id', (req, res, next) => {
-  res.json(mockData);
+  // log the request
+  console.info(`${req.method} ${req.originalUrl}`);
+
+  // decrement the holidays by 1
+  // I don't like this code, but it works
+  mockData.employees
+    .filter(e => e.id === parseInt(req.params.id))
+    .map(e => e.holidays -= 1);
+
+  // response - is this necessary?
+  res.json({message: `Decremented user ${req.params.id}`});
 });
 
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}.`));
